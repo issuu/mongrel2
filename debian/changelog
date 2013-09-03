@@ -1,3 +1,7 @@
+mongrel2 (1.8.1-issuu-20130903-1) experimental; urgency=low
+
+ -- Simon Ellefsen <se@issuu.com>  Tue, 03 Sep 2013 13:12:11 +0200
+
 mongrel2 (1.8.1-devel-20130603-1) experimental; urgency=low
 
   * Initial release (Closes: #590629)
