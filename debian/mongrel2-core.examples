@@ -1,0 +1,10 @@
+examples/bbs/
+examples/chat/
+examples/configs/
+examples/http_0mq/
+examples/kegogi/
+examples/mp3stream/
+examples/python/
+examples/tornado/
+examples/ws/
+examples/zcov/

@@ -1,0 +1,15 @@
+mongrel2 for Debian
+-------------------
+
+This package will be uploaded to experimental, because it lacks
+proper integration into the debian init system.
+
+The plan is to have two packages: First mongrel2-core, containing the
+binaries, which is useful if the web server is used embedded into another
+software and started from there. And second mongrel2, containing the
+init scripts and a trivial demo site, ready to be started as a stand
+alone server.
+
+By now, only mongrel2-core is packaged.
+
+ -- Jan Niehusmann <jan@debian.org>  Thu, 20 Jun 2013 16:30:11 +0200

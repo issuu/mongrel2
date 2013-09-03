@@ -1,0 +1,43 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" (C) Copyright 2013 Jan Niehusmann <jan@debian.org>,
+.\"
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH MONGREL2 1 "June  3, 2013"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.de URL
+\\$2 \(laURL: \\$1 \(ra\\$3
+..
+.if \n[.g] .mso www.tmac
+.\"
+.SH NAME
+mongrel2 \- mongrel2 web server
+.SH SYNOPSIS
+.B mongrel2
+config.sqlite server\_uuid [config\_module.so]
+.SH DESCRIPTION
+This starts th
+.B mongrel2
+web server, using the configuration given in
+.B config.sqlite
+and the specified server uuid.
+.PP
+Optionally, a configuration module can be specified.
+.PP
+For a complete description, see the
+.URL "http://mongrel2.org/manual/book-final.html" "mongrel2 documentation" "."
+
+.SH SEE ALSO
+.BR m2sh (1)

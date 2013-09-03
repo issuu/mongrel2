@@ -1,0 +1,4 @@
+/usr/bin/mongrel2
+/usr/bin/m2sh
+/usr/lib/mongrel2/filters/
+/usr/lib/mongrel2/config_modules/

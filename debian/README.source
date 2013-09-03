@@ -1,0 +1,12 @@
+mongrel2 for Debian
+-------------------
+
+As the source package for this development snapshot, the zip archive
+downloaded from github was used:
+
+https://github.com/zedshaw/mongrel2/archive/0994798e2c82ebc0793fe290ee681d9304c2806b.zip
+
+git-import-orig ../mongrel2_1.8.1-develop-20130603.zip --pristine-tar --filter-pristine-tar --filter="docs/site/assets/*"
+
+
+

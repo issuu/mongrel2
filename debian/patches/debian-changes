@@ -1,0 +1,148 @@
+This patch contains the differences between the upstream tarball and
+the sources actually used for building the package.
+
+Option single-debian-patch is used as the changes are tracked in git.
+--- mongrel2-1.8.1-devel-20130603.orig/Makefile
++++ mongrel2-1.8.1-devel-20130603/Makefile
+@@ -1,12 +1,12 @@
+-CFLAGS=-g -O2 -Wall -Wextra -Isrc -pthread -rdynamic -DNDEBUG $(OPTFLAGS) -D_FILE_OFFSET_BITS=64
+-LIBS=-lzmq -ldl -lsqlite3 $(OPTLIBS)
++CFLAGS+=-g -O2 -Wall -Wextra -idirafter "src" -pthread -rdynamic -DNDEBUG $(OPTFLAGS) -D_FILE_OFFSET_BITS=64
++LIBS=-lzmq -ldl -lsqlite3 -lpolarssl $(OPTLIBS)
+ PREFIX?=/usr/local
+ 
+ get_objs = $(addsuffix .o,$(basename $(wildcard $(1))))
+ 
+ ASM=$(wildcard src/**/*.S src/*.S)
+ RAGEL_TARGETS=src/state.c src/http11/http11_parser.c
+-SOURCES=$(wildcard src/**/*.c src/*.c) $(RAGEL_TARGETS)
++SOURCES=$(filter-out $(wildcard src/polarssl/*.c),$(wildcard src/**/*.c src/*.c)) $(RAGEL_TARGETS)
+ OBJECTS=$(patsubst %.c,%.o,${SOURCES}) $(patsubst %.S,%.o,${ASM})
+ OBJECTS_EXTERNAL+=$(call get_objs,src/polarssl/*.c)
+ OBJECTS_NOEXT=$(filter-out ${OBJECTS_EXTERNAL},${OBJECTS})
+@@ -18,7 +18,7 @@ MAKEOPTS=OPTFLAGS="${NOEXTCFLAGS} ${OPTF
+ 
+ all: bin/mongrel2 tests m2sh procer
+ 
+-dev: CFLAGS=-g -Wall -Isrc -Wall -Wextra $(OPTFLAGS) -D_FILE_OFFSET_BITS=64
++dev: CFLAGS=-g -Wall -idirafter "src" -Wall -Wextra $(OPTFLAGS) -D_FILE_OFFSET_BITS=64
+ dev: all
+ 
+ ${OBJECTS_NOEXT}: CFLAGS += ${NOEXTCFLAGS}
+@@ -26,7 +26,7 @@ ${OBJECTS_NOEXT}: CFLAGS += ${NOEXTCFLAG
+ 
+ 
+ bin/mongrel2: build/libm2.a src/mongrel2.o
+-	$(CC) $(CFLAGS) src/mongrel2.o -o $@ $< $(LIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) src/mongrel2.o -o $@ $< $(LIBS)
+ 
+ build/libm2.a: CFLAGS += -fPIC
+ build/libm2.a: build ${LIB_OBJ}
+@@ -43,6 +43,7 @@ clean:
+ 	rm -f tests/test.pid 
+ 	rm -f tests/tests.log 
+ 	rm -f tests/empty.sqlite 
++	rm -f tests/request_payloads.txt
+ 	rm -f tools/lemon/lemon
+ 	rm -f tools/m2sh/tests/tests.log 
+ 	find . -name "*.gc*" -exec rm {} \;
+--- mongrel2-1.8.1-devel-20130603.orig/tools/procer/Makefile
++++ mongrel2-1.8.1-devel-20130603/tools/procer/Makefile
+@@ -1,4 +1,4 @@
+-CFLAGS=-DNDEBUG -pthread -g -I../../src -Wall $(OPTFLAGS)
++CFLAGS+=-DNDEBUG -pthread -g -I../../src -Wall $(OPTFLAGS)
+ PREFIX?=/usr/local
+ LIBS?=-lzmq 
+ SOURCES=$(wildcard *.c)
+@@ -8,7 +8,7 @@ all: procer
+ 
+ 
+ procer: ../../build/libm2.a ${OBJECTS}
+-	gcc $(OPTFLAGS) $(OPTLIBS) -o $@ ${OBJECTS} ../../build/libm2.a ${LIBS}
++	gcc $(LDFLAGS) $(OPTFLAGS) $(OPTLIBS) -o $@ ${OBJECTS} ../../build/libm2.a ${LIBS}
+ 
+ clean:
+ 	rm -f *.o procer
+--- mongrel2-1.8.1-devel-20130603.orig/tools/filters/Makefile
++++ mongrel2-1.8.1-devel-20130603/tools/filters/Makefile
+@@ -1,6 +1,6 @@
+ PREFIX?=/usr/local
+-CFLAGS=-I../../src $(OPTFLAGS) -g -fPIC -shared -nostartfiles -L../../build
+-LDFLAGS=$(OPTLIBS)
++CFLAGS+=-idirafter ../../src $(OPTFLAGS) -g -fPIC -shared -nostartfiles -L../../build
++LDFLAGS+=$(OPTLIBS)
+ 
+ all: null.so rewrite.so sendfile.so
+ 
+--- mongrel2-1.8.1-devel-20130603.orig/tools/m2sh/Makefile
++++ mongrel2-1.8.1-devel-20130603/tools/m2sh/Makefile
+@@ -1,4 +1,4 @@
+-CFLAGS=-DNDEBUG -DNO_LINENOS -pthread -g -I../../src -Isrc -Wall $(OPTFLAGS)
++CFLAGS+=-DNDEBUG -DNO_LINENOS -pthread -g -I../../src -Isrc -Wall $(OPTFLAGS)
+ LIBS=-lzmq -lsqlite3 ../../build/libm2.a $(OPTLIBS)
+ 
+ PREFIX?=/usr/local
+@@ -24,7 +24,7 @@ build/libm2sh.a: ${LIB_OBJ}
+ 
+ build/m2sh: ../lemon/lemon ../../build/libm2.a ${OBJECTS}
+ 	mkdir -p build
+-	$(CC) $(CFLAGS) -o build/m2sh ${OBJECTS} ../../build/libm2.a $(LIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o build/m2sh ${OBJECTS} ../../build/libm2.a $(LIBS)
+ 
+ ../lemon/lemon: ../lemon/lemon.c
+ 	$(CC) -O2 ../lemon/lemon.c -o ../lemon/lemon
+--- mongrel2-1.8.1-devel-20130603.orig/tools/config_modules/Makefile
++++ mongrel2-1.8.1-devel-20130603/tools/config_modules/Makefile
+@@ -1,6 +1,6 @@
+ PREFIX?=/usr/local
+-CFLAGS=-I../../src $(OPTFLAGS) -fPIC -shared -nostartfiles -L../../build
+-LDFLAGS=$(OPTLIBS)
++CFLAGS+=-idirafter ../../src $(OPTFLAGS) -fPIC -shared -nostartfiles -L../../build
++LDFLAGS+=$(OPTLIBS)
+ 
+ MONGO_SRC = mongo-c-driver/src/bson.c \
+             mongo-c-driver/src/encoding.c \
+--- mongrel2-1.8.1-devel-20130603.orig/tests/filters/Makefile
++++ mongrel2-1.8.1-devel-20130603/tests/filters/Makefile
+@@ -1,5 +1,5 @@
+ PREFIX?=/usr/local
+-CFLAGS=-I../../src $(OPTFLAGS) -fPIC -shared -nostartfiles -L../../build
++CFLAGS=-idirafter ../../src $(OPTFLAGS) -fPIC -shared -nostartfiles -L../../build
+ LDFLAGS=$(OPTLIBS)
+ 
+ all: test_filter.so test_filter_a.so test_filter_b.so test_filter_c.so
+--- mongrel2-1.8.1-devel-20130603.orig/src/server.h
++++ mongrel2-1.8.1-devel-20130603/src/server.h
+@@ -39,9 +39,9 @@
+ #include "adt/darray.h"
+ #include "host.h"
+ #include "routing.h"
+-#include "polarssl/ssl.h"
+-#include "polarssl/x509.h"
+-#include "polarssl/rsa.h"
++#include <polarssl/ssl.h>
++#include <polarssl/x509.h>
++#include <polarssl/rsa.h>
+ 
+ enum {
+      /* IPv6 addr can be up to 40 chars long */
+--- mongrel2-1.8.1-devel-20130603.orig/src/io.c
++++ mongrel2-1.8.1-devel-20130603/src/io.c
+@@ -41,8 +41,8 @@
+ #include "register.h"
+ #include "mem/halloc.h"
+ #include "dbg.h"
+-#include "polarssl/havege.h"
+-#include "polarssl/ssl.h"
++#include <polarssl/havege.h>
++#include <polarssl/ssl.h>
+ #include "task/task.h"
+ #include "adt/darray.h"
+ 
+--- mongrel2-1.8.1-devel-20130603.orig/src/polarssl/config.h
++++ mongrel2-1.8.1-devel-20130603/src/polarssl/config.h
+@@ -1,3 +1,4 @@
++#error "don't use the embedded polarssl library for debian packages - use the packaged version (libpolarssl0) instead"
+ /**
+  * \file config.h
+  *

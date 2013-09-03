@@ -1,0 +1,6 @@
+# zmq.so is trivial (contains no function calls, just
+# defines some functions returning constant values).
+# That probably triggers the hardening-no-relro heuristic.
+# (Build options are identical to null.so, which doesn't trigger
+# this warning)
+mongrel2-core binary: hardening-no-relro usr/lib/mongrel2/config_modules/zmq.so

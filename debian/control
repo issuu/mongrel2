@@ -1,0 +1,40 @@
+Source: mongrel2
+Section: httpd
+Priority: optional
+Maintainer: Jan Niehusmann <jan@debian.org>
+Build-Depends: debhelper (>= 8.0.0), libzmq-dev (>= 2.1), libsqlite3-dev (>= 3.0), sqlite3 (>= 3.0), libpolarssl-dev (>= 1.2.3), dpkg-dev (>= 1.16.1~)
+Standards-Version: 3.9.4
+Homepage: http://mongrel2.org/
+Vcs-Git: git://git.debian.org/users/jan/mongrel2.git
+Vcs-Browser: http://git.debian.org/?p=users/jan/mongrel2.git;a=summary
+
+Package: mongrel2-core
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: programming language agnostic web server (binaries)
+ Mongrel2 is an application, programming language, and network
+ architecture agnostic web server that focuses on web applications using
+ modern browser technologies.
+ .
+ Mongrel2 supports 17 languages and platforms, HTTP, Flash sockets,
+ WebSockets, Long Polling, and many ways to deploy and hack on it.
+ .
+ This package includes the server binaries but doesn't contain all the
+ infrastructure needed to setup a standalone web server.
+
+
+# Don't build mongrel2 package, for now, as the init logic is not yet written.
+
+#Package: mongrel2
+#Architecture: any
+#Depends: mongrel2-core (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+#Description: programming language agnostic web server
+# Mongrel2 is an application, programming language, and network
+# architecture agnostic web server that focuses on web applications using
+# modern browser technologies.
+# .
+# Mongrel2 supports 17 languages and platforms, HTTP, Flash sockets,
+# WebSockets, Long Polling, and many ways to deploy and hack on it.
+# .
+# This package includes the infrastructure needed to setup a standalone
+# web server.

@@ -1,0 +1,5 @@
+mongrel2 (1.8.1-devel-20130603-1) experimental; urgency=low
+
+  * Initial release (Closes: #590629)
+
+ -- Jan Niehusmann <jan@debian.org>  Mon, 03 Jun 2013 16:30:11 +0200

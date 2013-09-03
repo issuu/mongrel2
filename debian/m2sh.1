@@ -1,0 +1,98 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" (C) Copyright 2013 Jan Niehusmann <jan@debian.org>,
+.\"
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH M2SH 1 "June  3, 2013"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.de URL
+\\$2 \(laURL: \\$1 \(ra\\$3
+..
+.if \n[.g] .mso www.tmac
+.\"
+.SH NAME
+m2sh \- configuration tool for mongrel2
+.SH SYNOPSIS
+.B m2sh
+.RI [ options ]
+.SH DESCRIPTION
+The m2sh tool is used to configure 
+.B mongrel2.
+.PP
+.SH OPTIONS
+For a complete description, see the
+.URL "http://mongrel2.org/manual/book-final.html" "mongrel2 documentation" "."
+.TP
+.B help
+Show summary of options.
+
+
+.TP
+.B load
+Load a config.
+.TP
+.B config
+Alias for load.
+.TP
+.B shell
+Starts an interactive shell.
+.TP
+.B access
+Prints the access log.
+.TP
+.B servers
+Lists the servers in a config database.
+.TP
+.B hosts
+Lists the hosts in a server.
+.TP
+.B routes
+Lists the routes in a host.
+.TP
+.B commit
+Adds a message to the log.
+.TP
+.B log
+Prints the commit log.
+.TP
+.B start
+Starts a server.
+.TP
+.B stop
+Stops a server.
+.TP
+.B reload
+Reloads a server.
+.TP
+.B running
+Tells you what's running.
+.TP
+.B control
+Connects to the control port.
+.TP
+.B route
+Tests out routing patterns.
+.TP
+.B version
+Prints the Mongrel2 and m2sh version.
+.TP
+.B help
+Get help, lists commands.
+.TP
+.B uuid
+Prints out a randomly generated UUID.
+
+.SH SEE ALSO
+.BR mongrel2 (1)
