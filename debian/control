@@ -25,16 +25,16 @@ Description: programming language agnostic web server (binaries)
 
 # Don't build mongrel2 package, for now, as the init logic is not yet written.
 
-#Package: mongrel2
-#Architecture: any
-#Depends: mongrel2-core (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
-#Description: programming language agnostic web server
-# Mongrel2 is an application, programming language, and network
-# architecture agnostic web server that focuses on web applications using
-# modern browser technologies.
-# .
-# Mongrel2 supports 17 languages and platforms, HTTP, Flash sockets,
-# WebSockets, Long Polling, and many ways to deploy and hack on it.
-# .
-# This package includes the infrastructure needed to setup a standalone
-# web server.
+Package: mongrel2
+Architecture: any
+Depends: mongrel2-core (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Description: programming language agnostic web server
+ Mongrel2 is an application, programming language, and network
+ architecture agnostic web server that focuses on web applications using
+ modern browser technologies.
+ .
+ Mongrel2 supports 17 languages and platforms, HTTP, Flash sockets,
+ WebSockets, Long Polling, and many ways to deploy and hack on it.
+ .
+ This package includes the infrastructure needed to setup a standalone
+ web server.
